@@ -1,0 +1,9 @@
+C:\Users\mateo\Desktop\Завриев мой господь\Многоугольники\Многоугольники\bin\Debug\Многоугольники.exe.config
+C:\Users\mateo\Desktop\Завриев мой господь\Многоугольники\Многоугольники\bin\Debug\Многоугольники.exe
+C:\Users\mateo\Desktop\Завриев мой господь\Многоугольники\Многоугольники\bin\Debug\Многоугольники.pdb
+C:\Users\mateo\Desktop\Завриев мой господь\Многоугольники\Многоугольники\obj\Debug\Многоугольники.csprojResolveAssemblyReference.cache
+C:\Users\mateo\Desktop\Завриев мой господь\Многоугольники\Многоугольники\obj\Debug\Многоугольники.Form1.resources
+C:\Users\mateo\Desktop\Завриев мой господь\Многоугольники\Многоугольники\obj\Debug\Многоугольники.Properties.Resources.resources
+C:\Users\mateo\Desktop\Завриев мой господь\Многоугольники\Многоугольники\obj\Debug\Многоугольники.csproj.GenerateResource.Cache
+C:\Users\mateo\Desktop\Завриев мой господь\Многоугольники\Многоугольники\obj\Debug\Многоугольники.exe
+C:\Users\mateo\Desktop\Завриев мой господь\Многоугольники\Многоугольники\obj\Debug\Многоугольники.pdb
