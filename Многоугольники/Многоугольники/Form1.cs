@@ -113,13 +113,13 @@ namespace Многоугольники
                         //Остановка таймера, вывод всего
                         Timer_1.Stop();
                         ts = Timer_1.Elapsed;
-                        Timer_1.Reset();
                         label1.Visible = true;
                         label2.Visible = true;
-                        label2.Text = Convert.ToString(ts.Milliseconds);
+                        label2.Text = Convert.ToString((float)ts.Ticks/(Stopwatch.Frequency/1000));
                         label3.Visible = true;
                         label4.Visible = true;
                         label4.Text = Convert.ToString(L.Count);
+                        Timer_1.Reset();
                         #endregion
                         break;
                     case 1:
@@ -223,17 +223,13 @@ namespace Многоугольники
                         //Остановка таймера
                         Timer_1.Stop();
                         ts = Timer_1.Elapsed;
-                        Timer_1.Reset();
                         label1.Visible = true;
                         label2.Visible = true;
-                        label2.Text = Convert.ToString(ts.Milliseconds);
+                        label2.Text = Convert.ToString(ts.Ticks/(Stopwatch.Frequency/1000);
                         label3.Visible = true;
                         label4.Visible = true;
                         label4.Text = Convert.ToString(L.Count);
-                        
-
-
-
+                        Timer_1.Reset();
                         #endregion
                         break;
                 }
@@ -403,9 +399,5 @@ namespace Многоугольники
             Refresh(); // При нажатии на пункт в меню перерисовывается оболочка другим алгоритмом
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
     }
     }
