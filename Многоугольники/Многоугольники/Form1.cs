@@ -14,6 +14,8 @@ namespace Многоугольники
 
     public partial class Form1 : Form
     {
+        Stopwatch Timer_1 = new Stopwatch();
+        TimeSpan ts;
         Pen pen = new Pen(Color.FromArgb(255, 0, 0, 0));
         byte algorithm_choice = 0; // 0 - По определению, 1 - Джарвис
         int pressDownX;
@@ -41,6 +43,9 @@ namespace Многоугольники
                 {
                     case 0:
                         #region BY_DEFENITION
+                        //Запуск отсчёта таймера 
+                        Timer_1.Start();
+
                         bool higher_or_right;
                         bool lower_or_left;
                         for (int n = 0; n < L.Count - 1; n++)
@@ -105,12 +110,23 @@ namespace Многоугольники
                                 }
                             }
                         }
-
-
+                        //Остановка таймера, вывод всего
+                        Timer_1.Stop();
+                        ts = Timer_1.Elapsed;
+                        Timer_1.Reset();
+                        label1.Visible = true;
+                        label2.Visible = true;
+                        label2.Text = Convert.ToString(ts.Milliseconds);
+                        label3.Visible = true;
+                        label4.Visible = true;
+                        label4.Text = Convert.ToString(L.Count);
                         #endregion
                         break;
                     case 1:
                         #region JARVIS
+                        // Запуск таймера
+                        Timer_1.Start();
+
                         //нахождение самой левой и нижней точки y = max / x = min
                         int Biggest_Y;
                         int Lowest_X;
@@ -167,10 +183,6 @@ namespace Многоугольники
                         L[Index].DO_NOT_DELETE_FLAG = true;
                         L[New_point].DO_NOT_DELETE_FLAG = true;
                         e.Graphics.DrawLine(pen, L[Index].X, L[Index].Y, L[New_point].X, L[New_point].Y);
-
-
-
-
                         Current_point = Index;
                         //ищем остальные линии. Теперь угол нам нужен везде наибольший. (Косинус - наименьший)
 
@@ -208,6 +220,20 @@ namespace Многоугольники
                             Current_point = New_point;
                             New_point = Potential_point;
                         }
+                        //Остановка таймера
+                        Timer_1.Stop();
+                        ts = Timer_1.Elapsed;
+                        Timer_1.Reset();
+                        label1.Visible = true;
+                        label2.Visible = true;
+                        label2.Text = Convert.ToString(ts.Milliseconds);
+                        label3.Visible = true;
+                        label4.Visible = true;
+                        label4.Text = Convert.ToString(L.Count);
+                        
+
+
+
                         #endregion
                         break;
                 }
@@ -375,6 +401,11 @@ namespace Многоугольники
         {
             algorithm_choice = 1;
             Refresh(); // При нажатии на пункт в меню перерисовывается оболочка другим алгоритмом
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
     }
