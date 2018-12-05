@@ -16,6 +16,7 @@ namespace Многоугольники
     {
         Stopwatch Timer_1 = new Stopwatch();
         TimeSpan ts;
+        string output; //Для вывода в текстовый файл
         Pen pen = new Pen(Color.FromArgb(255, 0, 0, 0));
         byte algorithm_choice = 0; // 0 - По определению, 1 - Джарвис
         int pressDownX;
@@ -119,6 +120,16 @@ namespace Многоугольники
                         label3.Visible = true;
                         label4.Visible = true;
                         label4.Text = Convert.ToString(L.Count);
+                        //Вывод текста в лог
+                        // !! ПУТЬ К ФАЙЛУ
+                        output = "Time: " + label2.Text + " Objects: " + label4.Text + " DEFINITION";
+                        using (System.IO.StreamWriter file =
+                        new System.IO.StreamWriter(@"C:\Users\mateo\Desktop\Завриев мой господь\Многоугольники\log_file.txt", true))
+                        {
+                            file.WriteLine(output);
+                        }
+
+                        //
                         Timer_1.Reset();
                         #endregion
                         break;
@@ -225,10 +236,20 @@ namespace Многоугольники
                         ts = Timer_1.Elapsed;
                         label1.Visible = true;
                         label2.Visible = true;
-                        label2.Text = Convert.ToString(ts.Ticks/(Stopwatch.Frequency/1000);
+                        label2.Text = Convert.ToString((float)ts.Ticks / (Stopwatch.Frequency / 1000));
                         label3.Visible = true;
                         label4.Visible = true;
                         label4.Text = Convert.ToString(L.Count);
+                        //Вывод текста в лог
+                        // !! ПУТЬ К ФАЙЛУ
+                        output = "Time: " + label2.Text + " Objects: " + label4.Text + " JARVIS";
+                        using (System.IO.StreamWriter file =
+                        new System.IO.StreamWriter(@"C:\Users\mateo\Desktop\Завриев мой господь\Многоугольники\log_file.txt", true))
+                        {
+                            file.WriteLine(output);
+                        }
+
+                        //
                         Timer_1.Reset();
                         #endregion
                         break;
