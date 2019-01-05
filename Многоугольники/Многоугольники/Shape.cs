@@ -63,7 +63,7 @@ namespace Многоугольники
                 y = value;
             }
         }
-        public Color FillColor
+        public static Color FillColor
         {
             get
             {
@@ -74,7 +74,7 @@ namespace Многоугольники
                 Filler = value;
             }
         }
-        public Color OutlineColor
+        public static Color OutlineColor
         {
             get
             {

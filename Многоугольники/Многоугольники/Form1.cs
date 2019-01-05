@@ -11,14 +11,12 @@ using System.Diagnostics;
 
 namespace Многоугольники
 {
-
     public partial class Form1 : Form
     {
-        Stopwatch Timer_1 = new Stopwatch();
-        TimeSpan ts;
-        string output; //Для вывода в текстовый файл
-        Pen pen = new Pen(Color.FromArgb(255, 0, 0, 0));
+        Pen pen = new Pen(Color.FromArgb(255, 0, 0, 0));                            //        !!!
         byte algorithm_choice = 0; // 0 - По определению, 1 - Джарвис
+        Color ShapeColor = Shape.FillColor;
+        Color LineColor  = (Color.FromArgb(255, 0, 0, 0));
         int pressDownX;
         int pressDownY;
         byte choice = 1;
@@ -27,7 +25,6 @@ namespace Многоугольники
         {
             InitializeComponent();
             this.DoubleBuffered = true; //антимерцание
-            L.Add(new Triangle(this.ClientSize.Width / 2, this.ClientSize.Height / 2)); //стартовый треугольник в середине
         }
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
@@ -45,8 +42,6 @@ namespace Многоугольники
                     case 0:
                         #region BY_DEFENITION
                         //Запуск отсчёта таймера 
-                        Timer_1.Start();
-
                         bool higher_or_right;
                         bool lower_or_left;
                         for (int n = 0; n < L.Count - 1; n++)
@@ -106,38 +101,15 @@ namespace Многоугольники
                                         L[n].DO_NOT_DELETE_FLAG = true;
                                         L[l].DO_NOT_DELETE_FLAG = true;
                                         e.Graphics.DrawLine(pen, L[n].X, L[n].Y, L[l].X, L[l].Y);
-                                        continue;
                                     }
                                 }
                             }
                         }
-                        //Остановка таймера, вывод всего
-                        Timer_1.Stop();
-                        ts = Timer_1.Elapsed;
-                        label1.Visible = true;
-                        label2.Visible = true;
-                        label2.Text = Convert.ToString((float)ts.Ticks/(Stopwatch.Frequency/1000));
-                        label3.Visible = true;
-                        label4.Visible = true;
-                        label4.Text = Convert.ToString(L.Count);
-                        //Вывод текста в лог
-                        // !! ПУТЬ К ФАЙЛУ
-                        output = "Time: " + label2.Text + " Objects: " + label4.Text + " DEFINITION";
-                        using (System.IO.StreamWriter file =
-                        new System.IO.StreamWriter(@"C:\Users\mateo\Desktop\Завриев мой господь\Многоугольники\log_file.txt", true))
-                        {
-                            file.WriteLine(output);
-                        }
-
-                        //
-                        Timer_1.Reset();
+                        
                         #endregion
                         break;
                     case 1:
                         #region JARVIS
-                        // Запуск таймера
-                        Timer_1.Start();
-
                         //нахождение самой левой и нижней точки y = max / x = min
                         int Biggest_Y;
                         int Lowest_X;
@@ -198,7 +170,7 @@ namespace Многоугольники
                         //ищем остальные линии. Теперь угол нам нужен везде наибольший. (Косинус - наименьший)
 
 
-                        while(New_point != Index)
+                        while (New_point != Index)
                         {
                             Cosine = 2; //т.к ищем наименьший, начинаем с наибольшего
                             for (int i = 0; i <= L.Count - 1; i++)
@@ -231,33 +203,13 @@ namespace Многоугольники
                             Current_point = New_point;
                             New_point = Potential_point;
                         }
-                        //Остановка таймера
-                        Timer_1.Stop();
-                        ts = Timer_1.Elapsed;
-                        label1.Visible = true;
-                        label2.Visible = true;
-                        label2.Text = Convert.ToString((float)ts.Ticks / (Stopwatch.Frequency / 1000));
-                        label3.Visible = true;
-                        label4.Visible = true;
-                        label4.Text = Convert.ToString(L.Count);
-                        //Вывод текста в лог
-                        // !! ПУТЬ К ФАЙЛУ
-                        output = "Time: " + label2.Text + " Objects: " + label4.Text + " JARVIS";
-                        using (System.IO.StreamWriter file =
-                        new System.IO.StreamWriter(@"C:\Users\mateo\Desktop\Завриев мой господь\Многоугольники\log_file.txt", true))
-                        {
-                            file.WriteLine(output);
-                        }
-
-                        //
-                        Timer_1.Reset();
                         #endregion
                         break;
                 }
             }
             else
             {
-                foreach(Shape S in L) // предотвращение стирания вершин, когда их меньше трёх
+                foreach (Shape S in L) // предотвращение стирания вершин, когда их меньше трёх
                 {
                     S.DO_NOT_DELETE_FLAG = true;
                 }
@@ -420,5 +372,36 @@ namespace Многоугольники
             Refresh(); // При нажатии на пункт в меню перерисовывается оболочка другим алгоритмом
         }
 
+        private void lineColorToolStripMenuItem_Click(object sender, EventArgs e) // Первое модальное окно, выбор цвета линий
+        {
+            colorDialog1.Color = LineColor;
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                LineColor = colorDialog1.Color;
+                pen = new Pen(colorDialog1.Color);
+                Refresh();
+            }
+                
+
+        }
+
+        private void shapeColorToolStripMenuItem_Click(object sender, EventArgs e) // Второе модальное окно, выбор цвета вершин
+        {
+            colorDialog1.Color = ShapeColor;
+            if(colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                ShapeColor = colorDialog1.Color;
+                Shape.FillColor = colorDialog1.Color;
+                Refresh();
+            }
+           
+
+        }
+        private bool JarvisDragDrop()
+        {
+            bool Possibitily = false;
+            return Possibitily;
+        }
     }
-    }
+}
+        
