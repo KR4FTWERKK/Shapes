@@ -29,7 +29,7 @@ namespace Многоугольники
             {
                 Flag = value;
             }
-        }
+        } //Флаг на Drag/Drop
         public bool DO_NOT_DELETE_FLAG
         {
             get
@@ -40,7 +40,7 @@ namespace Многоугольники
             {
                 Deletement_Flag = value;
             }
-        }
+        } //Флаг на удаление после Drag/Drop
         public int X
         {
             get
@@ -63,7 +63,7 @@ namespace Многоугольники
                 y = value;
             }
         }
-        public Color FillColor
+        public static Color FillColor
         {
             get
             {
@@ -74,7 +74,7 @@ namespace Многоугольники
                 Filler = value;
             }
         }
-        public Color OutlineColor
+        public static Color OutlineColor
         {
             get
             {
@@ -85,7 +85,7 @@ namespace Многоугольники
                 Outline = value;
             }
         }
-        public int R
+        public static int R
         {
             get
             {

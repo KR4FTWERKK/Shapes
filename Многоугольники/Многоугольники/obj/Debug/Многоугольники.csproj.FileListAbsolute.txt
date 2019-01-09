@@ -7,3 +7,4 @@ C:\Users\mateo\Desktop\Завриев мой господь\Многоуголь
 C:\Users\mateo\Desktop\Завриев мой господь\Многоугольники\Многоугольники\obj\Debug\Многоугольники.csproj.GenerateResource.Cache
 C:\Users\mateo\Desktop\Завриев мой господь\Многоугольники\Многоугольники\obj\Debug\Многоугольники.exe
 C:\Users\mateo\Desktop\Завриев мой господь\Многоугольники\Многоугольники\obj\Debug\Многоугольники.pdb
+C:\Users\mateo\Desktop\Завриев мой господь\Многоугольники\Многоугольники\obj\Debug\Многоугольники.Form2.resources
