@@ -8,15 +8,14 @@ namespace Многоугольники
 {
     public class RadiusEventArgs: EventArgs
     {
-        protected static int Radius;
-        private int value;
+        protected int Radius;
 
         public RadiusEventArgs(int value)
         {
-            this.value = value;
+            Radius = value;
         }
 
-        public static int RADIUS
+        public int RADIUS
         {
             get
             {

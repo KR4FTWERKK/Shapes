@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace Многоугольники
     public delegate void RadiusEventHandler(object sender, RadiusEventArgs e);
     public partial class Form1 : Form
     {
+        Form2 F2;
         Pen pen = new Pen(Color.FromArgb(255, 0, 0, 0));
         byte algorithm_choice = 0; // 0 - По определению, 1 - Джарвис
         Color ShapeColor = Shape.FillColor;
@@ -25,7 +27,8 @@ namespace Многоугольники
         public Form1()
         {
             InitializeComponent();
-            this.DoubleBuffered = true; //антимерцание
+            this.DoubleBuffered = true; //антимерцание (Двойная буфферизация, если вы зануда)
+           
         }
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
@@ -34,7 +37,9 @@ namespace Многоугольники
                 S.DO_NOT_DELETE_FLAG = false;
             }
             Graphics gr = e.Graphics;
-            //построение выпуклой оболочки
+            // Сглаживание
+            gr.SmoothingMode = SmoothingMode.HighQuality;
+            //Построение выпуклой оболочки
             #region CONVEX_HULL_BUILD
             if (L.Count >= 3) //Если число вершин больше 2-х, запускаем выбор алгоритма построения выпуклой оболочки и сами алгоритмы
             {
@@ -250,14 +255,7 @@ namespace Многоугольники
                     }
 
                 }
-                if(e.Button == MouseButtons.Left & L.Count >= 3)
-                {
-                    foreach (Shape S in L)
-                    {
-                        S.FLAG = true;
-                    }
-                }
-
+               
             }
             else //мы никуда не попали ни в одну из фигур
             { 
@@ -500,13 +498,38 @@ namespace Многоугольники
         }
         private void radiusToolStripMenuItem_Click(object sender, EventArgs e) //Настройка радиуса всех вершин
         {
-
+            //Обработка нажатия на клавишу
+            if (F2.Visible)
+            {
+                F2.Activate();
+            }
+            else
+            {
+                F2 = new Form2();
+                F2.RC += F2_RC;
+                F2.Show();
+            }
+            if(F2.WindowState == FormWindowState.Minimized)
+            {
+                F2.WindowState = FormWindowState.Normal;
+            }
         }
-        private void UpdateRadius (object sender, RadiusEventArgs e)
+       
+        private void F2_RC(object sender, RadiusEventArgs e)
         {
-        /////    Shape.R = e.;
+            //Получаем данные из 2-ой формы при помощи делегата и объекта класса RadiusEventArgs, изменяем радиус вершин
+            foreach (Shape S in L)
+            {
+                S.R = e.RADIUS;
+            }
             Refresh();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            //Заранее создаём окно, привязываем событие к функции
+            F2 = new Form2();
+            F2.RC += F2_RC;
         }
     }
 }
-        

@@ -22,12 +22,15 @@ namespace Многоугольники
         {
 
         }
-        private void trackBar1_Move(object sender, EventArgs e) //Track Bar Move or Scroll ???
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            if (RC == null)
+            //Привязываем событие, "классифицированное" делегатом и связываем его с объектом класса RadiusEventArgs через конструктор
+            if (RC != null)
             {
                 this.RC(this, new RadiusEventArgs(trackBar1.Value));
             }
+           
         }
     }
 }

@@ -36,9 +36,14 @@
             // 
             this.trackBar1.BackColor = System.Drawing.Color.LemonChiffon;
             this.trackBar1.Location = new System.Drawing.Point(12, 12);
+            this.trackBar1.Maximum = 40;
+            this.trackBar1.Minimum = 10;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(268, 56);
+            this.trackBar1.SmallChange = 5;
             this.trackBar1.TabIndex = 0;
+            this.trackBar1.Value = 10;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // Form2
             // 
@@ -47,7 +52,7 @@
             this.ClientSize = new System.Drawing.Size(292, 83);
             this.Controls.Add(this.trackBar1);
             this.Name = "Form2";
-            this.Text = "Form2";
+            this.Text = "Shape radius";
             this.Load += new System.EventHandler(this.Form2_Load);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
