@@ -9,12 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.IO;
 
 namespace Многоугольники
 {
     public delegate void RadiusEventHandler(object sender, RadiusEventArgs e);
     public partial class Form1 : Form
     {
+        Timer DynamicsTimer; 
         Form2 F2;
         Pen pen = new Pen(Color.FromArgb(255, 0, 0, 0));
         byte algorithm_choice = 0; // 0 - По определению, 1 - Джарвис
@@ -27,8 +29,7 @@ namespace Многоугольники
         public Form1()
         {
             InitializeComponent();
-            this.DoubleBuffered = true; //антимерцание (Двойная буфферизация, если вы зануда)
-           
+            this.DoubleBuffered = true; //антимерцание (Двойная буфферизация, если вы зануда)   
         }
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
@@ -37,6 +38,8 @@ namespace Многоугольники
                 S.DO_NOT_DELETE_FLAG = false;
             }
             Graphics gr = e.Graphics;
+            //Обрезка холста, чтобы тот не накладывался на панель управления
+            e.Graphics.Clip = new Region(new RectangleF(0,30,ActiveForm.Width,ActiveForm.Height-20));
             // Сглаживание
             gr.SmoothingMode = SmoothingMode.HighQuality;
             //Построение выпуклой оболочки
@@ -350,23 +353,40 @@ namespace Многоугольники
         }
         private void triangleToolStripMenuItem_Click(object sender, EventArgs e) // кнопка треугольника 
         {
+            //установка "галочек" при выборе
+            triangleToolStripMenuItem.Checked = true; 
+            circleToolStripMenuItem.Checked = false;
+            rectangleToolStripMenuItem.Checked = false;
+            
             choice = 1;
         }
         private void circleToolStripMenuItem_Click(object sender, EventArgs e) // кнопка круга
         {
+            //установка "галочек" при выборе
+            triangleToolStripMenuItem.Checked = false;
+            circleToolStripMenuItem.Checked = true;
+            rectangleToolStripMenuItem.Checked = false;
             choice = 2;
         }
         private void rectangleToolStripMenuItem_Click(object sender, EventArgs e) // кнопка квадрата
         {
+            //установка "галочек" при выборе
+            triangleToolStripMenuItem.Checked = false;
+            circleToolStripMenuItem.Checked = false;
+            rectangleToolStripMenuItem.Checked = true;
             choice = 3;
         }
         private void basicToolStripMenuItem_Click(object sender, EventArgs e) //По определению
         {
+            basicToolStripMenuItem.Checked = true;
+            jarvisToolStripMenuItem.Checked = false; 
             algorithm_choice = 0;
             Refresh(); // При нажатии на пункт в меню перерисовывается оболочка другим алгоритмом
         }
         private void jarvisToolStripMenuItem_Click(object sender, EventArgs e) //Джарвис
         {
+            basicToolStripMenuItem.Checked = false;
+            jarvisToolStripMenuItem.Checked = true;
             algorithm_choice = 1;
             Refresh(); // При нажатии на пункт в меню перерисовывается оболочка другим алгоритмом
         }
@@ -496,8 +516,22 @@ namespace Многоугольники
             }
             return Possibitily;
         }
-        private void radiusToolStripMenuItem_Click(object sender, EventArgs e) //Настройка радиуса всех вершин
+        private void F2_RC(object sender, RadiusEventArgs e)
         {
+            //Получаем данные из 2-ой формы при помощи делегата и объекта класса RadiusEventArgs, изменяем статическую переменную наследуемого класса и делаем Refresh
+            Shape.R = e.RADIUS;
+            Refresh();
+        }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            //    Заранее создаём окно, привязываем событие к функции
+          //  button1.Enabled = false;
+            F2 = new Form2();
+            F2.RC += F2_RC;
+        }
+        private void radiusToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           
             //Обработка нажатия на клавишу
             if (F2.Visible)
             {
@@ -507,29 +541,43 @@ namespace Многоугольники
             {
                 F2 = new Form2();
                 F2.RC += F2_RC;
+                //Возврат раннее введённого радиуса 
+                F2.SetRadius(Shape.R);
                 F2.Show();
             }
-            if(F2.WindowState == FormWindowState.Minimized)
+            if (F2.WindowState == FormWindowState.Minimized)
             {
                 F2.WindowState = FormWindowState.Normal;
             }
         }
-       
-        private void F2_RC(object sender, RadiusEventArgs e)
+        #region Dynamics
+        private void PlayButton_Click(object sender, EventArgs e)
         {
-            //Получаем данные из 2-ой формы при помощи делегата и объекта класса RadiusEventArgs, изменяем радиус вершин
-            foreach (Shape S in L)
+            //Одновременно юзеру может быть доступна только одна кнопка
+            PlayButton.Enabled = false;
+            PauseButton.Enabled = true;
+            //Обработчик значений
+            if (IntervalBox.Text) //Если введено целое число - всё хорошо;
             {
-                S.R = e.RADIUS;
+                DynamicsTimer.Interval = int.Parse(IntervalBox.Text);
+                DynamicsTimer.Tick +== 
+                DynamicsTimer.Start();
+
             }
-            Refresh();
+            else
+            {
+                MessageBox.Show("Input is incorrect");
+            }
+            
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void PauseButton_Click(object sender, EventArgs e)
         {
-            //Заранее создаём окно, привязываем событие к функции
-            F2 = new Form2();
-            F2.RC += F2_RC;
+            //Одновременно юзеру может быть доступна только одна кнопка
+            PlayButton.Enabled =  true;
+            PauseButton.Enabled = false;
+            DynamicsTimer.Stop();
         }
+        #endregion
     }
 }

@@ -20,9 +20,11 @@ namespace Многоугольники
         }
         private void Form2_Load(object sender, EventArgs e)
         {
-
         }
-
+        public void SetRadius(int Radius)
+        {
+            trackBar1.Value = Radius;
+        }
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             //Привязываем событие, "классифицированное" делегатом и связываем его с объектом класса RadiusEventArgs через конструктор
@@ -30,7 +32,6 @@ namespace Многоугольники
             {
                 this.RC(this, new RadiusEventArgs(trackBar1.Value));
             }
-           
         }
     }
 }

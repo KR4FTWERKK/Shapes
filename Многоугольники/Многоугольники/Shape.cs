@@ -85,7 +85,7 @@ namespace Многоугольники
                 Outline = value;
             }
         }
-        public int R
+        public static  int R
         {
             get
             {
